@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DHCustomLauncher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Darkest Hour Custom Launcher" Height="450" Width="800">
     <Grid>
-        
+        <Button x:Name="Load" Content="読み込み" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Load_Click"/>
+        <Button x:Name="Save" Content="保存" HorizontalAlignment="Left" Margin="105,10,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
+        <Button x:Name="Launch" Content="起動" HorizontalAlignment="Left" Margin="208,10,0,0" VerticalAlignment="Top" Width="75" Click="Launch_Click"/>
+        <Label Content="◆表示設定◆" HorizontalAlignment="Left" Margin="25,43,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="FullScreen" Content="フルスクリーン" HorizontalAlignment="Left" Margin="25,74,0,0" VerticalAlignment="Top" GroupName="VideoSettings"/>
+        <RadioButton x:Name="WindowMode" Content="ウィンドウモード" HorizontalAlignment="Left" Margin="25,94,0,0" VerticalAlignment="Top" GroupName="VideoSettings"/>
+        <Label Content="ゲーム画面解像度" HorizontalAlignment="Left" Margin="25,114,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Resolution" HorizontalAlignment="Left" Margin="60,140,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="1024x768(Default)"/>
+            <ComboBoxItem Content="1152x864"/>
+            <ComboBoxItem Content="1280x768"/>
+            <ComboBoxItem Content="1280x1024"/>
+            <ComboBoxItem Content="1440x900"/>
+            <ComboBoxItem Content="1600x1024"/>
+            <ComboBoxItem Content="Custom"/>
+        </ComboBox>
+        <Label Content="カスタム解像度" HorizontalAlignment="Left" Margin="25,162,0,0" VerticalAlignment="Top" IsEnabled="{Binding IsCustomResolution}"/>
+        <TextBox x:Name="Width" HorizontalAlignment="Left" Height="23" Margin="60,188,0,0" TextWrapping="Wrap" Text="Width" VerticalAlignment="Top" Width="60" IsEnabled="{Binding IsCustomResolution}"/>
+        <Label Content="x" HorizontalAlignment="Left" Margin="120,188,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.202,-0.78" IsEnabled="{Binding IsCustomResolution}"/>
+        <TextBox x:Name="Height" HorizontalAlignment="Left" Height="23" Margin="136,188,0,0" TextWrapping="Wrap" Text="Height" VerticalAlignment="Top" Width="60" IsEnabled="{Binding IsCustomResolution}"/>
+        <CheckBox x:Name="OpeningMovie" Content="オープニングムービーの再生" HorizontalAlignment="Left" Margin="25,228,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="Sounds" Content="ゲーム音のロード" HorizontalAlignment="Left" Margin="25,248,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="UnitSprites" Content="ユニットスプライトのロード" HorizontalAlignment="Left" Margin="25,268,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="Specific" Content="各国専用グラフィックのロード" HorizontalAlignment="Left" Margin="25,288,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="RefreshMap" Content="非マップモード時のマップ更新※" HorizontalAlignment="Left" Margin="25,308,0,0" VerticalAlignment="Top"/>
+        <Label Content="※1024x768以上のみ。高負荷。" HorizontalAlignment="Left" Margin="60,328,0,0" VerticalAlignment="Top"/>
+        <Label Content="◆ゲーム設定◆" HorizontalAlignment="Left" Margin="328,43,0,0" VerticalAlignment="Top"/>
+        <Label Content="言語" HorizontalAlignment="Left" Margin="328,69,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.797,0.199"/>
+        <ComboBox x:Name="Language" HorizontalAlignment="Left" Margin="367,72,0,0" VerticalAlignment="Top" Width="80">
+            <ComboBoxItem Content="日本語"/>
+            <ComboBoxItem Content="English"/>
+        </ComboBox>
+        <CheckBox x:Name="Music" Content="BGM" HorizontalAlignment="Left" Margin="328,100,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="SE" Content="効果音" HorizontalAlignment="Left" Margin="413,100,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="DebugLog" Content="デバッグログ" HorizontalAlignment="Left" Margin="328,120,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="ExtraDebug" Content="追加のマップ統計" HorizontalAlignment="Left" Margin="413,120,0,0" VerticalAlignment="Top" IsEnabled="{Binding IsDebugLog}"/>
+        <Label Content="Modsフォルダ名" HorizontalAlignment="Left" Margin="328,140,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="ModsFolder" HorizontalAlignment="Left" Height="23" Margin="421,143,0,0" TextWrapping="Wrap" Text="Mods" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Mod選択" HorizontalAlignment="Left" Margin="328,166,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Mod" HorizontalAlignment="Left" Margin="421,169,0,0" VerticalAlignment="Top" Width="120">
+        </ComboBox>
+
     </Grid>
 </Window>

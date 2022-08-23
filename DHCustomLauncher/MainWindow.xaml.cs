@@ -23,6 +23,35 @@ namespace DHCustomLauncher
         public MainWindow()
         {
             InitializeComponent();
+            //DataContextプロパティにViewModelのインスタンスを入れる
+            //DataContext(ViewModel)のプロパティがXAMLから参照可能になる
+            this.DataContext = new MainViewModel();
+        }
+
+        public void LoadConfig()
+        {
+
+        }
+
+        public void SaveConfig()
+        {
+
+        }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            LoadConfig();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveConfig();
+        }
+
+        private void Launch_Click(object sender, RoutedEventArgs e)
+        {
+            //ゲーム本体起動
+            System.Diagnostics.Process.Start("Darkest Hour.exe");
         }
     }
 }
