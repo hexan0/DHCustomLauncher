@@ -9,8 +9,9 @@
     <Grid>
         <Button x:Name="Load" Content="再読み込み" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Load_Click"/>
         <Button x:Name="Save" Content="保存" HorizontalAlignment="Left" Margin="105,10,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
-        <Button x:Name="Launch" Content="ゲームを起動" HorizontalAlignment="Left" Margin="208,10,0,0" VerticalAlignment="Top" Width="100" Click="Launch_Click" FontWeight="Bold"/>
-        <Label Content="◆表示設定◆" HorizontalAlignment="Left" Margin="25,43,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="Launch" Content="ゲームを起動" HorizontalAlignment="Left" Margin="208,10,0,0" VerticalAlignment="Top" Width="100" Click="Launch_Click"/>
+		<Button x:Name="SaveLaunch" Content="設定を保存して起動" HorizontalAlignment="Left" Margin="401,289,0,0" VerticalAlignment="Top" Width="140" Click="SaveLaunch_Click" FontWeight="Bold" Height="40"/>
+		<Label Content="◆表示設定◆" HorizontalAlignment="Left" Margin="25,43,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="FullScreen" Content="フルスクリーン" HorizontalAlignment="Left" Margin="25,74,0,0" VerticalAlignment="Top" GroupName="VideoSettings"/>
         <RadioButton x:Name="WindowMode" Content="ウィンドウモード" HorizontalAlignment="Left" Margin="25,94,0,0" VerticalAlignment="Top" GroupName="VideoSettings"/>
         <Label Content="ゲーム画面解像度" HorizontalAlignment="Left" Margin="25,114,0,0" VerticalAlignment="Top"/>
@@ -55,8 +56,9 @@
         <Label Content="Modsフォルダ名" HorizontalAlignment="Left" Margin="328,140,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ModsFolder" HorizontalAlignment="Left" Height="23" Margin="421,143,0,0" TextWrapping="Wrap" Text="Mods" VerticalAlignment="Top" Width="120"/>
         <Label Content="Mod選択" HorizontalAlignment="Left" Margin="328,166,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Mod" HorizontalAlignment="Left" Margin="421,169,0,0" VerticalAlignment="Top" Width="120">
+		<Image x:Name="ModImage" HorizontalAlignment="Left" Height="30" Margin="508,167,0,0" VerticalAlignment="Top" Width="30"/>
+		<ComboBox x:Name="Mod" HorizontalAlignment="Left" Margin="328,197,0,0" VerticalAlignment="Top" Width="210" SelectionChanged="Mod_SelectionChanged">
         </ComboBox>
-
+		
 	</Grid>
 </Window>

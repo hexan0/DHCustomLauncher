@@ -28,6 +28,21 @@ namespace DHCustomLauncher
             //DataContextプロパティにViewModelのインスタンスを入れる
             //DataContext(ViewModel)のプロパティがXAMLから参照可能になる
             this.DataContext = new MainViewModel();
+            ContentRendered += (s, e) =>
+            {
+                try
+                {
+                    LoadConfig();
+                }
+                catch
+                {
+                    MessageBox.Show(
+                        "setting.cfgが見つかりません。\nDarkest Hour.exeやsetting.cfgが入っているフォルダにDHCustomLauncher.exeを入れてください。",
+                        "DH Custom Launcher"
+                        );
+                }
+                
+            };
         }
 
         public string[,] description = { 
@@ -106,9 +121,20 @@ namespace DHCustomLauncher
             Specific.IsChecked = StringToBool(settings[11]);
             RefreshMap.IsChecked = StringToBool(settings[12]);
             ModsFolder.Text = settings[13];
-            Mod.SelectedItem = settings[14];
+            //Mods内のディレクトリ名取得
+            DirectoryInfo di = new DirectoryInfo(settings[13]);
+            // ディレクトリ直下のすべてのディレクトリ一覧を取得する
+            DirectoryInfo[] diAlls = di.GetDirectories();
+            Mod.Items.Clear();
+            Mod.Items.Add("(none)");
+            foreach (DirectoryInfo d in diAlls)
+            {
+                Mod.Items.Add(d.Name);
+            }
+            Mod.SelectedItem = settings[14] == "" ? "(none)" : settings[14];
             //settings[15]
-
+            //Mod画像更新
+            RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
 
         }
 
@@ -130,12 +156,32 @@ namespace DHCustomLauncher
             settings[11] = (bool)Specific.IsChecked ? "1" : "0";
             settings[12] = (bool)RefreshMap.IsChecked ? "1" : "0";
             settings[13] = ModsFolder.Text;
-            settings[14] = Convert.ToString(Mod.SelectedItem);
+            settings[14] = Convert.ToString(Mod.SelectedItem) == "(none)" ? "" : Convert.ToString(Mod.SelectedItem);
             settings[15] = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Darkest Hour Team\\Darkest Hour";
             //ファイル書き込み
             StreamWriter streamWriter = new StreamWriter("settings.cfg", false, Encoding.UTF8);
             for(int i = 0; i < 16; i++) streamWriter.WriteLine(settings[i] + " " + description[i, 0]);
             streamWriter.Close();
+            //Mod画像更新
+            RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+        }
+
+        public void RefreshIcon(string mods, string selectedMod)
+        {
+            if (selectedMod == "(none)" || selectedMod == "") ModImage.Visibility = Visibility.Hidden;
+            else
+            {
+                ModImage.Visibility = Visibility.Visible;
+                try
+                {
+                    ModImage.Source = PathToImage(mods + "\\" + selectedMod + "\\icon.ico");
+                }
+                catch
+                {
+                    ModImage.Visibility = Visibility.Hidden;
+                }
+                
+            }
         }
 
         private void Load_Click(object sender, RoutedEventArgs e)
@@ -152,6 +198,22 @@ namespace DHCustomLauncher
         {
             //ゲーム本体起動
             System.Diagnostics.Process.Start("Darkest Hour.exe");
+        }
+
+        private void SaveLaunch_Click(object sender, RoutedEventArgs e)
+        {
+            if (FullScreen.IsChecked != WindowMode.IsChecked)
+            {
+                SaveConfig();
+                //ゲーム本体起動
+                System.Diagnostics.Process.Start("Darkest Hour.exe");
+            }
+        }
+
+        //Mod変更
+        private void Mod_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
         }
 
         //数値限定用
@@ -174,5 +236,23 @@ namespace DHCustomLauncher
         {
             return str == "1";
         }
+
+        //パス→BitmapImage
+        public BitmapImage PathToImage(string path, int pixel = 500)
+        {
+            BitmapImage bmpImage = new BitmapImage();
+            using (FileStream stream = File.OpenRead(path))
+            {
+                bmpImage.BeginInit();
+                bmpImage.StreamSource = stream;
+                bmpImage.DecodePixelWidth = pixel;
+                bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                bmpImage.CreateOptions = BitmapCreateOptions.None;
+                bmpImage.EndInit();
+                bmpImage.Freeze();
+            }
+            return bmpImage;
+        }
+
     }
 }
