@@ -135,6 +135,7 @@ namespace DHCustomLauncher
             //settings[15]
             //Mod画像更新
             RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            LoadInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
 
         }
 
@@ -164,6 +165,7 @@ namespace DHCustomLauncher
             streamWriter.Close();
             //Mod画像更新
             RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            SaveInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
         }
 
         public void RefreshIcon(string mods, string selectedMod)
@@ -181,6 +183,53 @@ namespace DHCustomLauncher
                     ModImage.Visibility = Visibility.Hidden;
                 }
                 
+            }
+        }
+
+        public int playerBit = 769;
+        public int ipBit = 833;
+        public int lengthBit = 16;
+        public void LoadInfo(string mods, string selectedMod)
+        {
+            if (selectedMod == "(none)" || selectedMod == "")
+            {
+                PlayerName.Text = ReadBinary("config.eu", playerBit, lengthBit);
+                IP.Text = ReadBinary("config.eu", ipBit, lengthBit);
+            }
+            else
+            {
+                try
+                {
+                    PlayerName.Text = ReadBinary(mods + "\\" + selectedMod + "\\config.eu", playerBit, lengthBit);
+                    IP.Text = ReadBinary(mods + "\\" + selectedMod + "\\config.eu", ipBit, lengthBit);
+                }
+                catch
+                {
+                    PlayerName.Text = ReadBinary("config.eu", playerBit, lengthBit);
+                    IP.Text = ReadBinary("config.eu", ipBit, lengthBit);
+                }
+            }
+        }
+
+        public void SaveInfo(string mods, string selectedMod)
+        {
+            if (selectedMod == "(none)" || selectedMod == "")
+            {
+                WriteBinary("config.eu", PlayerName.Text, playerBit, lengthBit);
+                WriteBinary("config.eu", IP.Text, ipBit, lengthBit);
+            }
+            else
+            {
+                try
+                {
+                    WriteBinary(mods + "\\" + selectedMod + "\\config.eu", PlayerName.Text, playerBit, lengthBit);
+                    WriteBinary(mods + "\\" + selectedMod + "\\config.eu", IP.Text, ipBit, lengthBit);
+                }
+                catch
+                {
+                    WriteBinary("config.eu", PlayerName.Text, playerBit, lengthBit);
+                    WriteBinary("config.eu", IP.Text, ipBit, lengthBit);
+                }
             }
         }
 
@@ -214,15 +263,23 @@ namespace DHCustomLauncher
         private void Mod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            LoadInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
         }
 
         //数値限定用
-        private void numOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void NumOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // 0-9のみ
             e.Handled = !new Regex("[0-9]").IsMatch(e.Text);
         }
-        private void numOnly_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        //英数字限定用
+        private void EnOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // 
+            e.Handled = !new Regex("[-A-Za-z_./:0-9]").IsMatch(e.Text);
+        }
+        //限定用
+        private void Only_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             // 貼り付けを許可しない
             if (e.Command == ApplicationCommands.Paste)
@@ -254,5 +311,81 @@ namespace DHCustomLauncher
             return bmpImage;
         }
 
+        public string ReadBinary(string path, int start, int length)
+        {
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+            int fileSize = (int)fs.Length; // ファイルのサイズ
+            byte[] buf = new byte[fileSize]; // データ格納用配列
+
+            int readSize; // Readメソッドで読み込んだバイト数
+            int remain = fileSize; // 読み込むべき残りのバイト数
+            int bufPos = 0; // データ格納用配列内の追加位置
+
+            while (remain > 0)
+            {
+                // 1024Bytesずつ読み込む
+                readSize = fs.Read(buf, bufPos, Math.Min(1024, remain));
+
+                bufPos += readSize;
+                remain -= readSize;
+            }
+            fs.Dispose();
+
+            byte[] buf_out = new byte[length];
+            for (int i = 0; i < length; i++)
+            {
+                buf_out[i] = buf[start + i];
+            }
+
+            return ByteToString(buf_out);
+        }
+
+        public void WriteBinary(string path, string str, int start, int length = 0)
+        {
+            if (length == 0) length = str.Length;
+            FileStream fsr = new FileStream(path, FileMode.Open, FileAccess.Read);
+            FileStream fsw = new FileStream(path, FileMode.Open, FileAccess.Write);
+            int fileSize = (int)fsr.Length; // ファイルのサイズ
+            byte[] buf = new byte[fileSize]; // データ格納用配列
+
+            int readSize; // Readメソッドで読み込んだバイト数
+            int remain = fileSize; // 読み込むべき残りのバイト数
+            int bufPos = 0; // データ格納用配列内の追加位置
+
+            //読み込み
+            while (remain > 0)
+            {
+                // 1024Bytesずつ読み込む
+                readSize = fsr.Read(buf, bufPos, Math.Min(1024, remain));
+
+                bufPos += readSize;
+                remain -= readSize;
+            }
+            fsr.Dispose();
+
+            //書き換え
+            byte[] write_buf = StringToByte(str);
+            for (int i = 0; i < length; i++)
+            {
+                if (i < str.Length) buf[start + i] = write_buf[i];
+                else buf[start + i] = 0x00; //0埋め
+            }
+
+            //書き込み
+            fsw.Write(buf, 0, fileSize);
+            fsw.Dispose();
+
+            
+        }
+
+        public byte[] StringToByte(string str)
+        {
+            return Encoding.GetEncoding("Shift_JIS").GetBytes(str);
+        }
+        public string ByteToString(byte[] bytes)
+        {
+            return Encoding.GetEncoding("Shift_JIS").GetString(bytes);
+        }
     }
 }

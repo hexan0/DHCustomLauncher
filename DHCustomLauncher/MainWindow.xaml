@@ -30,14 +30,14 @@
 		<TextBox x:Name="Width" HorizontalAlignment="Left" Height="23" Margin="60,188,0,0" TextWrapping="Wrap" Text="Width" VerticalAlignment="Top" Width="60"
 				 IsEnabled="{Binding IsCustomResolution, UpdateSourceTrigger=PropertyChanged}"
 				 InputMethod.IsInputMethodEnabled="False"
-				 PreviewTextInput="numOnly_PreviewTextInput"
-				 CommandManager.PreviewExecuted="numOnly_PreviewExecuted"/>
+				 PreviewTextInput="NumOnly_PreviewTextInput"
+				 CommandManager.PreviewExecuted="Only_PreviewExecuted"/>
         <Label Content="x" HorizontalAlignment="Left" Margin="120,188,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.202,-0.78" IsEnabled="{Binding IsCustomResolution, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox x:Name="Height" HorizontalAlignment="Left" Height="23" Margin="136,188,0,0" TextWrapping="Wrap" Text="Height" VerticalAlignment="Top" Width="60"
 				 IsEnabled="{Binding IsCustomResolution, UpdateSourceTrigger=PropertyChanged}"
 				 InputMethod.IsInputMethodEnabled="False"
-				 PreviewTextInput="numOnly_PreviewTextInput"
-				 CommandManager.PreviewExecuted="numOnly_PreviewExecuted"/>
+				 PreviewTextInput="NumOnly_PreviewTextInput"
+				 CommandManager.PreviewExecuted="Only_PreviewExecuted"/>
         <CheckBox x:Name="OpeningMovie" Content="オープニングムービーの再生" HorizontalAlignment="Left" Margin="25,228,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="UnitSprites" Content="ユニットスプライトのロード" HorizontalAlignment="Left" Margin="25,248,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="Specific" Content="各国専用グラフィックのロード" HorizontalAlignment="Left" Margin="25,268,0,0" VerticalAlignment="Top"/>
@@ -57,8 +57,15 @@
         <TextBox x:Name="ModsFolder" HorizontalAlignment="Left" Height="23" Margin="421,143,0,0" TextWrapping="Wrap" Text="Mods" VerticalAlignment="Top" Width="120"/>
         <Label Content="Mod選択" HorizontalAlignment="Left" Margin="328,166,0,0" VerticalAlignment="Top"/>
 		<Image x:Name="ModImage" HorizontalAlignment="Left" Height="30" Margin="508,167,0,0" VerticalAlignment="Top" Width="30"/>
-		<ComboBox x:Name="Mod" HorizontalAlignment="Left" Margin="328,197,0,0" VerticalAlignment="Top" Width="210" SelectionChanged="Mod_SelectionChanged">
+		<ComboBox x:Name="Mod" HorizontalAlignment="Left" Margin="328,197,0,0" VerticalAlignment="Top" Width="213" SelectionChanged="Mod_SelectionChanged">
         </ComboBox>
-		
-	</Grid>
+        <Label Content="プレイヤー名" HorizontalAlignment="Left" Margin="328,224,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="PlayerName" HorizontalAlignment="Left" Height="23" Margin="398,225,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="143" MaxLength="16"/>
+        <Label Content="接続先IP" HorizontalAlignment="Left" Margin="328,250,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="IP" HorizontalAlignment="Left" Height="23" Margin="398,250,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="143" MaxLength="16"
+				 InputMethod.IsInputMethodEnabled="False"
+				 PreviewTextInput="EnOnly_PreviewTextInput"
+				 CommandManager.PreviewExecuted="Only_PreviewExecuted"/>
+
+    </Grid>
 </Window>
