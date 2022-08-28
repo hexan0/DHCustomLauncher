@@ -33,6 +33,7 @@ namespace DHCustomLauncher
                 try
                 {
                     LoadConfig();
+                    LoadTip();
                 }
                 catch
                 {
@@ -231,6 +232,33 @@ namespace DHCustomLauncher
                     WriteBinary("config.eu", IP.Text, ipBit, lengthBit);
                 }
             }
+        }
+
+        public void LoadTip()
+        {
+            Load.ToolTip = "ランチャー起動時に行われるファイル読み込み処理を再度行います。";
+            Save.ToolTip = "現在の設定を保存します。";
+            Launch.ToolTip = "設定を保存せずにDarkest Hourを起動します。";
+            SaveLaunch.ToolTip = "設定を保存してDarkest Hourを起動します。";
+            FullScreen.ToolTip = "全画面表示。ウィンドウ表示で正常に起動しない場合、一度フルスクリーンで起動すると解決する場合があります。";
+            WindowMode.ToolTip = "ウィンドウ表示。";
+            Resolution.ToolTip = "ゲーム画面解像度。カスタム解像度で正常に起動しない場合、一度デフォルト画質で起動すると解決する場合があります。";
+            Width.ToolTip = "カスタム解像度の横幅。";
+            Height.ToolTip = "カスタム解像度の縦幅。";
+            OpeningMovie.ToolTip = "オープニングムービーを再生。";
+            UnitSprites.ToolTip = "ユニットスプライトのロード。";
+            Specific.ToolTip = "各国専用グラフィックのロード。";
+            RefreshMap.ToolTip = "1024x768より高解像度で、マップモードでないときマップを更新するか。ゲームスピードが少し落ちる代わりに見た目の問題が解決します。";
+            Language.ToolTip = "使用言語。日本語化パッチ後の基準で表示しています。";
+            Music.ToolTip = "音楽(BGM)";
+            Sounds.ToolTip = "効果音(Sounds)";
+            DebugLog.ToolTip = "デバッグログ(savedebug.txt)";
+            DebugExtra.ToolTip = "デバッグログ(savedebug.txt)に追加のマップ統計を出力するか。";
+            ModsFolder.ToolTip = "Modのフォルダを入れるフォルダ名。デフォルトは\"Mods\"。基本的に変更する必要なし。変更した場合は、「保存」して「再読み込み」することを推奨。";
+            // ModImage.ToolTip = "";
+            Mod.ToolTip = "起動時に使用するMod。";
+            PlayerName.ToolTip = "マルチプレイヤー時に表示される自身のプレイヤー名。Modごとに異なる。16byteの制限があるため、2byte文字(日本語など)を使用する場合は文字上限に注意。";
+            IP.ToolTip = "マルチプレイヤー(Internet)時に接続するIPアドレス。Modごとに異なる。16byteの制限あり。";
         }
 
         private void Load_Click(object sender, RoutedEventArgs e)
