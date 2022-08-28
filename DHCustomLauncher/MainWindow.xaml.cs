@@ -345,7 +345,7 @@ namespace DHCustomLauncher
         {
             if (length == 0) length = str.Length;
             FileStream fsr = new FileStream(path, FileMode.Open, FileAccess.Read);
-            FileStream fsw = new FileStream(path, FileMode.Open, FileAccess.Write);
+            
             int fileSize = (int)fsr.Length; // ファイルのサイズ
             byte[] buf = new byte[fileSize]; // データ格納用配列
 
@@ -363,7 +363,8 @@ namespace DHCustomLauncher
                 remain -= readSize;
             }
             fsr.Dispose();
-
+            //読み込みのファイルストリームを閉じてから書き込みを開くこと。
+            FileStream fsw = new FileStream(path, FileMode.Open, FileAccess.Write);
             //書き換え
             byte[] write_buf = StringToByte(str);
             for (int i = 0; i < length; i++)
