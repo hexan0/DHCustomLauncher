@@ -136,7 +136,26 @@ namespace DHCustomLauncher
             //settings[15]
             //Mod画像更新
             RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
-            LoadInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            //Mod 名前、ip読み込み
+            try
+            {
+                PlayerName.IsEnabled = true;
+                IP.IsEnabled = true;
+                LoadInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            }
+            catch
+            {
+                PlayerName.IsEnabled = false;
+                IP.IsEnabled = false;
+                PlayerName.Text = "";
+                IP.Text = "";
+                MessageBox.Show(
+                        "config.euを読み込めませんでした。\nconfig.euが選択中Modフォルダ内に存在しない可能性があります。\n一度ゲーム内で名前またはIPを変更すると生成される可能性があります。",
+                        "DH Custom Launcher"
+                        );
+            }
+
+            
 
         }
 
@@ -166,7 +185,20 @@ namespace DHCustomLauncher
             streamWriter.Close();
             //Mod画像更新
             RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
-            SaveInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            //Mod 名前、IP書き込み
+            try
+            {
+                if (PlayerName.IsEnabled) {
+                    SaveInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+                }
+            }
+            catch
+            {
+                MessageBox.Show(
+                        "config.euに書き込めませんでした。\nconfig.euが選択中Modフォルダ内に存在しない可能性があります。\n一度ゲーム内で名前またはIPを変更すると生成される可能性があります。",
+                        "DH Custom Launcher"
+                        );
+            }
         }
 
         public void RefreshIcon(string mods, string selectedMod)
@@ -290,8 +322,26 @@ namespace DHCustomLauncher
         //Mod変更
         private void Mod_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Mod画像更新
             RefreshIcon(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
-            LoadInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            //Mod 名前、ip読み込み
+            try
+            {
+                PlayerName.IsEnabled = true;
+                IP.IsEnabled = true;
+                LoadInfo(ModsFolder.Text, Convert.ToString(Mod.SelectedItem));
+            }
+            catch
+            {
+                PlayerName.IsEnabled = false;
+                IP.IsEnabled = false;
+                PlayerName.Text = "";
+                IP.Text = "";
+                MessageBox.Show(
+                        "config.euを読み込めませんでした。\nconfig.euが選択中Modフォルダ内に存在しない可能性があります。\n一度ゲーム内で名前またはIPを変更すると生成される可能性があります。",
+                        "DH Custom Launcher"
+                        );
+            }
         }
 
         //数値限定用
